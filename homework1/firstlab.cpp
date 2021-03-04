@@ -9,14 +9,14 @@ const double PI = acos(-1.0);
 class Point {
 public:
     Point(int x = 0, int y = 0)
-    : x_(x)
-    , y_(y)
+            : x_(x)
+            , y_(y)
     {};
 
     //copy
     Point(const Point& other)
-    : x_(other.x_)
-    , y_(other.y_)
+            : x_(other.x_)
+            , y_(other.y_)
     {};
 
     //=
@@ -24,18 +24,20 @@ public:
         if(&other == this){
             return *this;
         }
-        x_=other.x_;
-        y_=other.y_;
+            x_ = other.x_;
+            y_ = other.y_;
+
+        return *this;
     }
 
     ~Point() = default;
 
 
-    int getX(){
+    int getX() const{
         return x_;
     }
 
-    int getY(){
+    int getY() const{
         return y_;
     }
 
@@ -51,7 +53,7 @@ class PolygonalChain{
 public:
     PolygonalChain(unsigned int n = 0, Point *p = {}){
         N_=n;
-        for(int i=0; i<n; i++){
+        for(unsigned int i=0; i<n; i++){
             Points_.push_back(p[i]);
         };
     };
@@ -66,31 +68,34 @@ public:
     PolygonalChain& operator=(const PolygonalChain&  other){
         if(&other == this){
             return *this;
-        }
-        N_=other.N_;
-        Points_=other.Points_;
-    }
+        }else {
+            N_ = other.N_;
+            Points_ = other.Points_;
 
-    ~PolygonalChain(){
+            return *this;
+        }
+    };
+
+    virtual ~PolygonalChain(){
         N_=0;
         Points_.clear();
     }
 
 
-    int getN(){
-        return N_;
-    }
-
-    Point& getPoint(unsigned int k){
+    const Point getPoint(unsigned int k) const{
         return Points_[k];
     }
 
-    virtual double perimeter(){
+    int getN() const{
+        return N_;
+    }
+
+    virtual double perimeter() const{
         int x0=Points_[0].getX();
         int y0=Points_[0].getY();
         int x1,y1;
         double ans;
-        for (int i=1;i<N_;i++){
+        for (unsigned int i=1;i<N_;i++){
             x1=Points_[i].getX();
             y1=Points_[i].getY();
             ans+=sqrt(pow(x1-x0,2)+pow(y1-y0,2));
@@ -112,7 +117,7 @@ class ClosedPolygonalChain: public PolygonalChain{
 
     using PolygonalChain::PolygonalChain;
 public:
-    virtual double perimeter(){
+    virtual double perimeter() const{
         int x0=getPoint(0).getX();
         int y0=getPoint(0).getY();
         int x1=getPoint(getN()-1).getX();
@@ -127,7 +132,7 @@ class Polygon: public ClosedPolygonalChain{
 
     using ClosedPolygonalChain::ClosedPolygonalChain;
 public:
-    virtual double area(){
+    virtual double area() const{
         int n = getN()-1;
         int sum1=0,sum2=0;
 
@@ -147,10 +152,10 @@ class Triangle: public Polygon{
 
     using Polygon::Polygon;
 public:
-    bool hasRightAngle(){
+    bool hasRightAngle() const{
         int sc1,sc2,sc3;
         sc1=(getPoint(1).getX()-getPoint(0).getX())*((getPoint(2).getX()-getPoint(1).getX()))+
-                ((getPoint(1).getY()-getPoint(0).getY()))*((getPoint(2).getY()-getPoint(1).getY()));
+            ((getPoint(1).getY()-getPoint(0).getY()))*((getPoint(2).getY()-getPoint(1).getY()));
         sc2=(getPoint(1).getX()-getPoint(0).getX())*((getPoint(2).getX()-getPoint(0).getX()))+
             ((getPoint(1).getY()-getPoint(0).getY()))*((getPoint(2).getY()-getPoint(0).getY()));
         sc3=(getPoint(2).getX()-getPoint(1).getX())*((getPoint(2).getX()-getPoint(0).getX()))+
@@ -165,7 +170,7 @@ public:
 class Trapezoid: public Polygon{
     using Polygon::Polygon;
 public:
-    double height(){
+    double height() const{
         double a = sqrt(pow(getPoint(1).getX()-getPoint(2).getX(),2)+pow(getPoint(1).getY()-getPoint(2).getY(),2));
         double b = sqrt(pow(getPoint(0).getX()-getPoint(3).getX(),2)+pow(getPoint(0).getY()-getPoint(3).getY(),2));
 
@@ -179,13 +184,13 @@ class RegularPolygon: public Polygon{
     using Polygon::Polygon;
 public:
 
-    double area(){
+    double area() const{
         double ans = (getN()*a*a)/(4* tan(PI/getN()));
         return ans;
 
     }
 
-    double perimeter(){
+    double perimeter() const{
         return getN()*a;
     }
 private:
