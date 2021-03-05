@@ -9,7 +9,7 @@
 using namespace std;
 
 const double PI = acos(-1.0);
-
+//todo cpp
 class Point {
 public:
     Point(int x = 0, int y = 0)
@@ -74,6 +74,7 @@ public:
     };
 
     virtual ~PolygonalChain() {
+    	//todo dont do clear
         N_ = 0;
         Points_.clear();
     }
@@ -104,6 +105,8 @@ public:
     }
 
 private:
+	//todo remove N
+	//todo var names shouldnt start with capital letter
     unsigned int N_;
     vector<Point> Points_;
 
@@ -194,6 +197,7 @@ public:
     }
 
 private:
+	//todo a is a bad name
     double a = sqrt(pow(getPoint(0).getX() - getPoint(1).getX(), 2) + pow(getPoint(0).getY() - getPoint(1).getY(), 2));
 };
 
