@@ -73,7 +73,7 @@ double PolygonalChain::perimeter() const {
     int x0 = points_[0].getX();
     int y0 = points_[0].getY();
     int x1, y1;
-    double ans;
+    double ans = 0;
     for (unsigned int i = 1; i < points_.size(); i++) {
         x1 = points_[i].getX();
         y1 = points_[i].getY();
@@ -91,7 +91,8 @@ double ClosedPolygonalChain::perimeter() const {
     int y0 = getPoint(0).getY();
     int x1 = getPoint(getN() - 1).getX();
     int y1 = getPoint(getN() - 1).getY();
-    double ans = PolygonalChain::perimeter() + sqrt(pow(x1 - x0, 2) + pow(y1 - y0, 2));;
+    double ans = 0;
+    ans = PolygonalChain::perimeter() + sqrt(pow(x1 - x0, 2) + pow(y1 - y0, 2));;
     return ans;
 }
 
