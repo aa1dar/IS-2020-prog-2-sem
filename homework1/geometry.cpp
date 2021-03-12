@@ -59,7 +59,6 @@ PolygonalChain &PolygonalChain::operator=(const PolygonalChain &other) {
 };
 
 PolygonalChain::~PolygonalChain() = default;
-//FIXED todo dont do clear
 
 Point PolygonalChain::getPoint(unsigned int k) const {
     return points_[k];
@@ -99,6 +98,7 @@ double ClosedPolygonalChain::perimeter() const {
 
 double Polygon::area() const {
     int n = getN() - 1;
+    //todo you dont need double sum1 and sum2 
     double sum1 = 0, sum2 = 0;
 
     for (int i = 0; i < n; i++) {
@@ -120,6 +120,7 @@ bool Triangle::hasRightAngle() const {
           ((getPoint(1).getY() - getPoint(0).getY())) * ((getPoint(2).getY() - getPoint(0).getY()));
     sc3 = (getPoint(2).getX() - getPoint(1).getX()) * ((getPoint(2).getX() - getPoint(0).getX())) +
           ((getPoint(2).getY() - getPoint(1).getY())) * ((getPoint(2).getY() - getPoint(0).getY()));
+    //todo return expression
     if (sc1 == 0 || sc2 == 0 || sc3 == 0) {
         return true;
     } else return false;
@@ -138,7 +139,6 @@ double Trapezoid::height() const {
 
 
 double RegularPolygon::area() const {
-    //FIXED: todo a is a bad name
     double length_ = sqrt(
             pow(getPoint(0).getX() - getPoint(1).getX(), 2) + pow(getPoint(0).getY() - getPoint(1).getY(), 2));
     double ans = (getN() * length_ * length_) / (4 * tan(PI / getN()));
