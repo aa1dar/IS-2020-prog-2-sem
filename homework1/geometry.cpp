@@ -98,8 +98,8 @@ double ClosedPolygonalChain::perimeter() const {
 
 double Polygon::area() const {
     int n = getN() - 1;
-    //todo you dont need double sum1 and sum2 
-    double sum1 = 0, sum2 = 0;
+    //FIXED you dont need double sum1 and sum2
+    int sum1 = 0, sum2 = 0;
 
     for (int i = 0; i < n; i++) {
         sum1 += getPoint(i).getX() * getPoint(i + 1).getY();
@@ -108,7 +108,8 @@ double Polygon::area() const {
     }
     sum1 += getPoint(n - 1).getX() * getPoint(0).getY();
     sum2 += getPoint(n - 1).getY() * getPoint(0).getX();
-    return abs(sum2 - sum1) / 2;
+
+    return (double)abs(sum2 - sum1) / 2;
 }
 
 
@@ -120,10 +121,8 @@ bool Triangle::hasRightAngle() const {
           ((getPoint(1).getY() - getPoint(0).getY())) * ((getPoint(2).getY() - getPoint(0).getY()));
     sc3 = (getPoint(2).getX() - getPoint(1).getX()) * ((getPoint(2).getX() - getPoint(0).getX())) +
           ((getPoint(2).getY() - getPoint(1).getY())) * ((getPoint(2).getY() - getPoint(0).getY()));
-    //todo return expression
-    if (sc1 == 0 || sc2 == 0 || sc3 == 0) {
-        return true;
-    } else return false;
+    //FIXED return expression
+    return (sc1 == 0 || sc2 == 0 || sc3 == 0);
 }
 
 
