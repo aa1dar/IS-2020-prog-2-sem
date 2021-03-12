@@ -1,0 +1,9 @@
+Pulling https://github.com/aa1dar/IS-2020-prog-2-sem/homework1
+Pull finished
+It's compiled
+Return code: 3
+Assertion failed: cpc->perimeter() == 12, file main.cpp, line 18
+
+No warnings
+
+
