@@ -3,8 +3,7 @@
 #define C___POLYNOMIAL_H
 
 #include <iostream>
-#include <cmath>
-#include <vector>
+
 
 
 using namespace std;
