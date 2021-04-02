@@ -223,6 +223,7 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     return *this;
 }
 
+//todo += copy-paste
 Polynomial Polynomial::operator-=(const Polynomial &other) {
 
     int pmin = 0;
@@ -356,7 +357,8 @@ Polynomial operator/(Polynomial &lhs, int num) {
     Polynomial::init(tmp);
     return tmp;
 }
-
+                
+//todo / from /=
 Polynomial operator/=(Polynomial &lhs, int num) {
     lhs = (lhs / num);
     return lhs;
