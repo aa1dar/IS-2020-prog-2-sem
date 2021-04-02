@@ -20,7 +20,15 @@ Polynomial::Polynomial(int power_min, int power_max, int *chain) {
     power_min_ = power_min;
 };
 
-Polynomial::Polynomial(const Polynomial &other) = default;
+Polynomial::Polynomial(const Polynomial &other){
+    int *tmp = new int[other.power_max_ - other.power_min_ + 1]{0};
+    for (int i = 0; i < other.power_max_ - other.power_min_ + 1; i++) {
+        tmp[i] = other.chain_[i];
+    }
+    chain_ = tmp;
+    power_max_ = other.power_max_;
+    power_min_ = other.power_min_;
+};
 
 Polynomial &Polynomial::operator=(const Polynomial &other) {
     if (&other == this) {
@@ -31,6 +39,7 @@ Polynomial &Polynomial::operator=(const Polynomial &other) {
     for (int i = 0; i < other.power_max_ - other.power_min_ + 1; i++) {
         tmp[i] = other.chain_[i];
     }
+    delete[] chain_;
     chain_ = tmp;
     power_max_ = other.power_max_;
     power_min_ = other.power_min_;
@@ -38,7 +47,10 @@ Polynomial &Polynomial::operator=(const Polynomial &other) {
     return *this;
 }
 
-Polynomial::~Polynomial() = default;
+Polynomial::~Polynomial(){
+    delete [] chain_;
+
+};
 
 int Polynomial::operator[](int i) const {
     if (i <= power_max_ && i >= power_min_) {
@@ -58,8 +70,9 @@ int &Polynomial::operator[](int i) {
         }
 
         power_max_ = i;
-        delete chain_;
+        delete[] chain_;
         chain_ = tmp;
+
         return chain_[i - power_min_];
 
     } else {
@@ -70,8 +83,10 @@ int &Polynomial::operator[](int i) {
         }
 
         power_min_ = i;
-        delete chain_;
+        delete[] chain_;
         chain_ = tmp;
+
+
         return chain_[0];
     }
 };
