@@ -52,7 +52,6 @@ public:
 
 bool operator==(const Polynomial &, const Polynomial &);
 
-
 Polynomial operator-(const Polynomial &);
 
 Polynomial operator*(const Polynomial &, const Polynomial &);
