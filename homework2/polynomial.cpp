@@ -221,52 +221,12 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     delete temp;
 
     return *this;
-}
+};
 
-//todo += copy-paste
+//fixed += copy-paste
 Polynomial Polynomial::operator-=(const Polynomial &other) {
 
-    int pmin = 0;
-    int pmax = 0;
-    if (power_max_ < other.power_max_)
-        pmax = other.power_max_;
-    else
-        pmax = power_max_;
-
-    if (power_min_ > other.power_min_)
-        pmin = other.power_min_;
-    else
-        pmin = power_min_;
-
-    Polynomial *temp = new Polynomial(pmin, pmax, new int[pmax - pmin + 1]{0});
-
-
-    int tmp = pmin;
-    int i = 0;
-    int counter1 = 0;
-    int counter2 = 0;
-
-    while (tmp <= pmax) {
-
-
-        if (tmp >= power_min_ && tmp <= power_max_) {
-            temp->chain_[i] += chain_[counter1++];
-        }
-
-        if (tmp >= other.power_min_ && tmp <= other.power_max_) {
-            temp->chain_[i] -= other.chain_[counter2++];
-        }
-
-        i++;
-        tmp++;
-    }
-
-
-    init(*temp);
-
-
-    *this = *temp;
-    delete temp;
+    *this+=(-other);
 
     return *this;
 }
@@ -306,21 +266,10 @@ bool operator==(const Polynomial &lhs1, const Polynomial &rhs1) {
 
 
 Polynomial operator*(const Polynomial &lhs, const Polynomial &rhs) {
+    Polynomial* tmp = new Polynomial(lhs);
+    *tmp*=rhs;
+    return *tmp;
 
-    int pwr1 = lhs.getMaxPower();
-    Polynomial tmp = Polynomial();
-    for (int i = lhs.getN() - 1; i >= 0; i--) {
-        int pwr2 = rhs.getMaxPower();
-        for (int j = rhs.getN() - 1; j >= 0; j--) {
-            tmp[(pwr1) + (pwr2--)] += rhs.getChainN(j) * lhs.getChainN(i);
-
-
-        }
-        pwr1--;
-    }
-    Polynomial::init(tmp);
-
-    return tmp;
 }
 
 Polynomial operator*(const Polynomial &lhs, int num) {
@@ -340,28 +289,47 @@ Polynomial operator*(int num, const Polynomial &lhs) {
     return lhs * num;
 }
 
-Polynomial operator*=(Polynomial &lhs, const Polynomial &rhs) {
-    lhs = (lhs * rhs);
-    return lhs;
+Polynomial& Polynomial::operator*=(const Polynomial &rhs) {
+    int pwr1 = getMaxPower();
+    Polynomial tmp = Polynomial();
+    for (int i = getN() - 1; i >= 0; i--) {
+        int pwr2 = rhs.getMaxPower();
+        for (int j = rhs.getN() - 1; j >= 0; j--) {
+            tmp[(pwr1) + (pwr2--)] += rhs.getChainN(j) * getChainN(i);
+
+
+        }
+        pwr1--;
+    }
+    Polynomial::init(tmp);
+    *this = tmp;
+
+    return *this;
 }
 
 Polynomial operator/(Polynomial &lhs, int num) {
+    Polynomial* temp = new Polynomial(lhs);
+    *temp/=num;
 
-    int pwr1 = lhs.getMaxPower();
+    return *temp;
+}
+                
+//fixed / from /=
+
+Polynomial& Polynomial::operator/=(int num) {
+
+    int pwr1 = getMaxPower();
     Polynomial tmp = Polynomial();
-    for (int i = lhs.getN() - 1; i >= 0; i--) {
-        tmp[pwr1] = (int) lhs[pwr1] / num;
+    for (int i = getN() - 1; i >= 0; i--) {
+        tmp[pwr1] = (int) operator[](pwr1)/ num;
 
         pwr1--;
     }
     Polynomial::init(tmp);
-    return tmp;
-}
-                
-//todo / from /=
-Polynomial operator/=(Polynomial &lhs, int num) {
-    lhs = (lhs / num);
-    return lhs;
+    *this = tmp;
+
+    return *this;
+
 }
 
 Polynomial operator+(const Polynomial &lhs, const Polynomial &rhs) {

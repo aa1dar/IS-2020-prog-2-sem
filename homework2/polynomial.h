@@ -47,6 +47,10 @@ public:
 
     Polynomial operator-=(const Polynomial &);
 
+    Polynomial& operator/=(int);
+
+    Polynomial& operator*=(const Polynomial &);
+
 
 };
 
@@ -60,11 +64,11 @@ Polynomial operator*(const Polynomial &, int);
 
 Polynomial operator*(int, const Polynomial &);
 
-Polynomial operator*=(Polynomial &, const Polynomial &);
+
 
 Polynomial operator/(Polynomial &, int);
 
-Polynomial operator/=(Polynomial &, int);
+
 
 Polynomial operator+(const Polynomial &, const Polynomial &);
 
