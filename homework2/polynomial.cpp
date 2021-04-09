@@ -190,6 +190,7 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     else
         pmin = power_min_;
 
+    //todo you dont need Polynomial*
     Polynomial *temp = new Polynomial(pmin, pmax, new int[pmax - pmin + 1]{0});
 
 
