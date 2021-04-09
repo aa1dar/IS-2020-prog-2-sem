@@ -223,7 +223,7 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     return *this;
 };
 
-//fixed += copy-paste
+//todo without new object
 Polynomial Polynomial::operator-=(const Polynomial &other) {
 
     *this+=(-other);
@@ -314,12 +314,12 @@ Polynomial operator/(Polynomial &lhs, int num) {
     return *temp;
 }
                 
-//fixed / from /=
 
 Polynomial& Polynomial::operator/=(int num) {
 
     int pwr1 = getMaxPower();
     Polynomial tmp = Polynomial();
+    //todo use for_each
     for (int i = getN() - 1; i >= 0; i--) {
         tmp[pwr1] = (int) operator[](pwr1)/ num;
 
