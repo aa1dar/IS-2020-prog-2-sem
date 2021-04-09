@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 
 #include "polynomial.h"
@@ -190,7 +191,8 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     else
         pmin = power_min_;
 
-    Polynomial *temp = new Polynomial(pmin, pmax, new int[pmax - pmin + 1]{0});
+    //FIXED you dont need Polynomial*
+    int *chain= new int[pmax - pmin + 1]{0};
 
 
     int tmp = pmin;
@@ -202,31 +204,36 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
 
 
         if (tmp >= power_min_ && tmp <= power_max_) {
-            temp->chain_[i] += chain_[counter1++];
+            chain[i] += chain_[counter1++];
         }
 
         if (tmp >= other.power_min_ && tmp <= other.power_max_) {
-            temp->chain_[i] += other.chain_[counter2++];
+            chain[i] += other.chain_[counter2++];
         }
 
         i++;
         tmp++;
     }
 
+    delete[] chain_;
 
-    init(*temp);
-
-
-    *this = *temp;
-    delete temp;
+    chain_ = chain;
+    power_max_=pmax;
+    power_min_=pmin;
+    init(*this);
 
     return *this;
 };
 
-//todo without new object
+//FIXED without new object
 Polynomial Polynomial::operator-=(const Polynomial &other) {
+    int pwrmax = max(power_max_,other.power_max_);
+    int pwrmin = min(power_min_,other.power_min_);
 
-    *this+=(-other);
+    for(int i = pwrmin;i<=pwrmax; i++){
+        operator[](i) -= other.operator[](i);
+    }
+
 
     return *this;
 }
@@ -317,16 +324,16 @@ Polynomial operator/(Polynomial &lhs, int num) {
 
 Polynomial& Polynomial::operator/=(int num) {
 
-    int pwr1 = getMaxPower();
-    Polynomial tmp = Polynomial();
-    //todo use for_each
-    for (int i = getN() - 1; i >= 0; i--) {
-        tmp[pwr1] = (int) operator[](pwr1)/ num;
 
-        pwr1--;
-    }
-    Polynomial::init(tmp);
-    *this = tmp;
+
+
+    //FIXED use for_each
+
+
+    for_each(chain_,chain_+getN(),[num](int &p){ p = (int)p / num;});
+
+    Polynomial::init(*this );
+
 
     return *this;
 
