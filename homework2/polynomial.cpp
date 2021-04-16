@@ -191,7 +191,6 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     else
         pmin = power_min_;
 
-    //FIXED you dont need Polynomial*
     int *chain= new int[pmax - pmin + 1]{0};
 
 
@@ -225,7 +224,6 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     return *this;
 };
 
-//FIXED without new object
 Polynomial Polynomial::operator-=(const Polynomial &other) {
     int pwrmax = max(power_max_,other.power_max_);
     int pwrmin = min(power_min_,other.power_min_);
@@ -327,7 +325,7 @@ Polynomial& Polynomial::operator/=(int num) {
 
 
 
-    //FIXED use for_each
+
 
 
     for_each(chain_,chain_+getN(),[num](int &p){ p = (int)p / num;});

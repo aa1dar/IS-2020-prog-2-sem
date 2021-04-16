@@ -43,6 +43,7 @@ public:
 
     static void init(Polynomial &);
 
+    //todo +=, =... should return Polynomial&
     Polynomial operator+=(const Polynomial &);
 
     Polynomial operator-=(const Polynomial &);
