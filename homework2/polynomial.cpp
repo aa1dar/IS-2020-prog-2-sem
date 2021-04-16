@@ -224,6 +224,7 @@ Polynomial Polynomial::operator+=(const Polynomial &other) {
     return *this;
 };
 
+//todo why += so bigger than -=?
 Polynomial Polynomial::operator-=(const Polynomial &other) {
     int pwrmax = max(power_max_,other.power_max_);
     int pwrmin = min(power_min_,other.power_min_);
