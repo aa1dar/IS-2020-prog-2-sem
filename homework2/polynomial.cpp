@@ -177,55 +177,20 @@ void Polynomial::init(Polynomial &pol) {
 
 }
 
-Polynomial Polynomial::operator+=(const Polynomial &other) {
+Polynomial& Polynomial::operator+=(const Polynomial &other) {
 
-    int pmin = 0;
-    int pmax = 0;
-    if (power_max_ < other.power_max_)
-        pmax = other.power_max_;
-    else
-        pmax = power_max_;
+    *this -=(-other);
 
-    if (power_min_ > other.power_min_)
-        pmin = other.power_min_;
-    else
-        pmin = power_min_;
-
-    int *chain= new int[pmax - pmin + 1]{0};
-
-
-    int tmp = pmin;
-    int i = 0;
-    int counter1 = 0;
-    int counter2 = 0;
-
-    while (tmp <= pmax) {
-
-
-        if (tmp >= power_min_ && tmp <= power_max_) {
-            chain[i] += chain_[counter1++];
-        }
-
-        if (tmp >= other.power_min_ && tmp <= other.power_max_) {
-            chain[i] += other.chain_[counter2++];
-        }
-
-        i++;
-        tmp++;
-    }
-
-    delete[] chain_;
-
-    chain_ = chain;
-    power_max_=pmax;
-    power_min_=pmin;
     init(*this);
 
     return *this;
+
+
 };
 
-//todo why += so bigger than -=?
-Polynomial Polynomial::operator-=(const Polynomial &other) {
+
+//FIXED why += so bigger than -=?
+Polynomial& Polynomial::operator-=(const Polynomial &other) {
     int pwrmax = max(power_max_,other.power_max_);
     int pwrmin = min(power_min_,other.power_min_);
 
