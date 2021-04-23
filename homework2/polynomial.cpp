@@ -177,16 +177,33 @@ void Polynomial::init(Polynomial &pol) {
 
 }
 
-//todo without creating new objwct
+//FIXED without creating new objwct
 Polynomial& Polynomial::operator+=(const Polynomial &other) {
 
-    *this -=(-other);
+    int pwrmax = max(power_max_,other.power_max_);
+    int pwrmin = min(power_min_,other.power_min_);
 
+    int *chain= new int[pwrmax - pwrmin + 1]{0};
+
+    int counter1 = 0;
+    int counter2 = 0;
+    int tmp = pwrmin;
+
+    for(int i = 0;i<pwrmax - pwrmin + 1; i++) {
+        if (tmp >= power_min_ && tmp <= power_max_)
+            chain[i] += chain_[counter1++];
+        if (tmp >= other.power_min_ && tmp <= other.power_max_)
+            chain[i] += other.chain_[counter2++];
+        tmp++;
+    }
+
+    delete[] chain_;
+    chain_ = chain;
+    power_max_=pwrmax;
+    power_min_=pwrmin;
     init(*this);
 
     return *this;
-
-
 };
 
 
