@@ -103,7 +103,7 @@ int main(){
 
     xml_document doc;
 
-    xml_parse_result result = doc.load_file("../gits/homework3/data.xml");
+    xml_parse_result result = doc.load_file("data.xml");
 
     xpath_query transport_stations_query("/dataset/transport_station");
 
