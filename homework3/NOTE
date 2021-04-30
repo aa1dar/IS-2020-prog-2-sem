@@ -1,0 +1,29 @@
+Pulling https://github.com/aa1dar/IS-2020-prog-2-sem/homework3
+Pull finished
+It's compiled
+Routes with most stops: 
+	bus: 211
+	trall: 35
+	tram: 23
+-------------------------
+The most longest routes: 
+	bus 134
+	trall 2
+	tram 41
+--------------------------
+Most popular street Таллинское ш.
+
+main.cpp: In function 'std::string max_station_street(std::map<std::__cxx11::basic_string<char>, int>&)':
+main.cpp:64:9: warning: unused variable 'count' [-Wunused-variable]
+   64 |     int count = 0;
+      |         ^~~~~
+main.cpp: In function 'int main()':
+main.cpp:132:18: warning: variable 'name' set but not used [-Wunused-but-set-variable]
+  132 |         xml_node name = station.select_node(name_stopping_query).node();
+      |                  ^~~~
+main.cpp:106:22: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+  106 |     xml_parse_result result = doc.load_file("data.xml");
+      |                      ^~~~~~
+
+
+
