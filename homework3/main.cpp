@@ -8,8 +8,13 @@
 #include <cmath>
 
 
+//todo dont use using namespace
 using namespace std;
 using namespace pugi;
+
+//todo S P A C E S
+
+
 
 vector<string> split (const string &s, char delim) {
     vector<string> result;
@@ -65,6 +70,7 @@ string max_station_street(map<string,int> &street_counts){
     int maxcount = 0;
     string street_ans;
 
+    //todo range based for
     for(auto i = street_counts.begin(); i!=street_counts.end();i++){
         auto [street, count] = *i;
         if(maxcount<count) {
@@ -75,6 +81,8 @@ string max_station_street(map<string,int> &street_counts){
 
     return street_ans;
 }
+
+//todo const&
 string max_counts_station(database &data){
     int count = 0;
     int maxcount = 0;
@@ -155,7 +163,7 @@ int main(){
         //cout<<"y = "<<y<<endl;
 
         string veh = vehicle.value();
-
+        //todo tralley is not a word
         if(veh == "Автобус")
             data = &bus_data;
         else if (veh == "Трамвай")
@@ -196,6 +204,7 @@ int main(){
     cout<<"Routes with most stops: "<<endl;
     cout<<"\tbus: "<<max_counts_station(bus_data)<<endl;
     cout<<"\ttrall: "<<max_counts_station(tralley_data)<<endl;
+    //todo trrr is tractor from Uncle Fedor
     string trrr = max_counts_station(tram_data);
     cout<<"\ttram: "<<trrr<<endl;
     cout<<"-------------------------"<<endl;
