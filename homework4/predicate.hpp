@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-
+//todo S P A C E S
 template <class TInputIterator, class TPredicate>
 bool allOf(TInputIterator begin, TInputIterator end, TPredicate func){
     for(;begin!=end;begin++){
@@ -58,6 +58,7 @@ bool oneOf(TInputIterator begin, TInputIterator end, TPredicate func){
     return true;
 }
 
+//todo use default argument parameter
 template <class TForwardIterator, class TCompare>
 bool isSorted(TForwardIterator begin, TForwardIterator end, TCompare comp){
 
