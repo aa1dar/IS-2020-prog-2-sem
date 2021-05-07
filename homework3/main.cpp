@@ -108,7 +108,7 @@ int main() {
 
     pugi::xml_document doc;
 
-    doc.load_file("../gits/homework3/data.xml");
+    doc.load_file("data.xml");
 
     pugi::xpath_query transport_stations_query("/dataset/transport_station");
 
