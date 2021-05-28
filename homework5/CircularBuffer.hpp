@@ -53,7 +53,7 @@ public:
         return *this;
     }
 
-    Iterator operator++(T) {
+    Iterator operator++(int) {
         auto old = *this;
         ++(*this);
         return old;
