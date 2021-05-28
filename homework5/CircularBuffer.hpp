@@ -215,11 +215,18 @@ public:
         }
         if (size_ != capacity_)
             size_++;
+        last_id = (last_id + 1) % capacity_;
+        if(size_ == capacity_ && last_id == capacity_){
+            begin_++;
+            first_id = (first_id + 1) % capacity_;
+            begin_.changeId(0);
+        }
+
 
         begin_.changeSize(size_);
         end_.changeSize(size_);
         ++end_;
-        last_id = (last_id + 1) % capacity_;
+
         data[last_id] = val;
 
     }
