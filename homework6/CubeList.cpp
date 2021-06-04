@@ -632,7 +632,7 @@ public:
 
     void writeFile(){
 
-        ofstream fout("../gits/homework6/state.txt");
+        ofstream fout("state.txt");
         vector<Color> state = getState();
         vector<string> side = {"F","B","L","R","U","D"};
         int k=0;
@@ -661,7 +661,7 @@ public:
     }
 
     void readFile(){
-        ifstream fin("../gits/homework6/state.txt");
+        ifstream fin("state.txt");
         vector<Color> state;
 
         fin.seekg(0);
