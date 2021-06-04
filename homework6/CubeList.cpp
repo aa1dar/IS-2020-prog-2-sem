@@ -660,6 +660,36 @@ public:
 
     }
 
+    void writeCons(){
+
+
+        vector<Color> state = getState();
+        vector<string> side = {"F","B","L","R","U","D"};
+        int k=0;
+        int l = 0;
+        auto t = side.begin();
+        cout<<(*t)<<endl;
+        for(auto i:state){
+            k+=1;
+            cout<<i<<' ';
+
+            if(k==3){
+                cout<<endl;
+                k=0;
+                l+=1;
+            }
+            if(l==3 ) {
+                l=0;
+                cout << endl;
+                if((++t)!=side.end())
+                    cout << (*t) << endl;
+            }
+
+        }
+
+
+    }
+
     void readFile(){
         ifstream fin("state.txt");
         vector<Color> state;
@@ -710,10 +740,10 @@ int main(){
     //    c.transformCube(q);
 
 
-    //c.Scramble(5);
-    //c.writeFile();
+    c.Scramble(5);
+    c.writeCons();
 
-    c.readFile();
+
     c.toSolve();
 
     c.writeFile();
