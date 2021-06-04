@@ -20,12 +20,12 @@ int applicableMoves[] = { 0, 262143, 259263, 74943, 74898 };
 
 
 int affectedCubies[][8] = {
-        {  0,  1,  2,  3,  0,  1,  2,  3 },   // U
-        {  4,  7,  6,  5,  4,  5,  6,  7 },   // D
-        {  0,  9,  4,  8,  0,  3,  5,  4 },   // F
-        {  2, 10,  6, 11,  2,  1,  7,  6 },   // B
-        {  3, 11,  7,  9,  3,  2,  6,  5 },   // L
-        {  1,  8,  5, 10,  1,  0,  4,  7 },   // R
+        {  0,  1,  2,  3,  0,  1,  2,  3 },   
+        {  4,  7,  6,  5,  4,  5,  6,  7 },   
+        {  0,  9,  4,  8,  0,  3,  5,  4 },   
+        {  2, 10,  6, 11,  2,  1,  7,  6 },   
+        {  3, 11,  7,  9,  3,  2,  6,  5 },   
+        {  1,  8,  5, 10,  1,  0,  4,  7 },   
 };
 
 vi applyMove ( int move, vi state ) {
@@ -39,7 +39,7 @@ vi applyMove ( int move, vi state ) {
             int killer = affectedCubies[face][(i&3)==3 ? i-3 : i+1] + isCorner*12;;
             int orientationDelta = (i<4) ? (face>1 && face<4) : (face<2) ? 0 : 2 - (i&1);
             state[target] = oldState[killer];
-            //state[target+20] = (oldState[killer+20] + orientationDelta) % (2 + isCorner);
+            
             state[target+20] = oldState[killer+20] + orientationDelta;
             if( !turns )
                 state[target+20] %= 2 + isCorner;
@@ -52,19 +52,19 @@ int inverse ( int move ) {
     return move + 2 - 2 * (move % 3);
 }
 
-//----------------------------------------------------------------------
+
 
 int phase;
 
-//----------------------------------------------------------------------
+
 
 vi id ( vi state ) {
 
-    //--- Phase 1: Edge orientations.
+    
     if( phase < 2 )
         return vi( state.begin() + 20, state.begin() + 32 );
 
-    //-- Phase 2: Corner orientations, E slice edges.
+    
     if( phase < 3 ){
         vi result( state.begin() + 31, state.begin() + 40 );
         for( int e=0; e<12; e++ )
@@ -72,7 +72,7 @@ vi id ( vi state ) {
         return result;
     }
 
-    //--- Phase 3: Edge slices M and S, corner tetrads, overall parity.
+    
     if( phase < 4 ){
         vi result( 3 );
         for( int e=0; e<12; e++ )
@@ -85,27 +85,27 @@ vi id ( vi state ) {
         return result;
     }
 
-    //--- Phase 4: The rest.
+    
     return state;
 }
 
-//----------------------------------------------------------------------
+
 
 stringstream findAnswer(stringstream& is ) {
 
     stringstream os;
-    //--- Define the goal.
+   
     string goal[] = { "UF", "UR", "UB", "UL", "DF", "DR", "DB", "DL", "FR", "FL", "BR", "BL",
                       "UFR", "URB", "UBL", "ULF", "DRF", "DFL", "DLB", "DBR" };
 
-    //--- Prepare current (start) and goal state.
+    
     vi currentState( 40 ), goalState( 40 );
     for( int i=0; i<20; i++ ){
 
-        //--- Goal state.
+        
         goalState[i] = i;
 
-        //--- Current (start) state.
+        
         string cubie;
         is>>cubie;
         while( (currentState[i] = find( goal, goal+20, cubie ) - goal) == 20){
@@ -114,35 +114,35 @@ stringstream findAnswer(stringstream& is ) {
         }
     }
 
-    //--- Dance the funky Thistlethwaite...
+    
     while( ++phase < 5 ){
 
-        //--- Compute ids for current and goal state, skip phase if equal.
+       
         vi currentId = id( currentState ), goalId = id( goalState );
         if( currentId == goalId )
             continue;
 
-        //--- Initialize the BFS queue.
+        
         queue<vi> q;
         q.push( currentState );
         q.push( goalState );
 
-        //--- Initialize the BFS tables.
+        
         map<vi,vi> predecessor;
         map<vi,int> direction, lastMove;
         direction[ currentId ] = 1;
         direction[ goalId ] = 2;
 
-        //--- Dance the funky bidirectional BFS...
+        
         while( 1 ){
 
-            //--- Get state from queue, compute its ID and get its direction.
+           
             vi oldState = q.front();
             q.pop();
             vi oldId = id( oldState );
             int& oldDir = direction[oldId];
 
-            //--- Apply all applicable moves to it and handle the new state.
+            
             for( int move=0; move<18; move++ ){
                 if( applicableMoves[phase] & (1 << move) ){
 
@@ -151,17 +151,17 @@ stringstream findAnswer(stringstream& is ) {
                     vi newId = id( newState );
                     int& newDir = direction[newId];
 
-                    //--- Have we seen this state (id) from the other direction already?
-                    //--- I.e. have we found a connection?
+                    
+                    
                     if( newDir  &&  newDir != oldDir ){
 
-                        //--- Make oldId represent the forwards and newId the backwards search state.
+                        
                         if( oldDir > 1 ){
                             swap( newId, oldId );
                             move = inverse( move );
                         }
 
-                        //--- Reconstruct the connecting algorithm.
+                        
                         vi algorithm( 1, move );
                         while( oldId != currentId ){
                             algorithm.insert( algorithm.begin(), lastMove[ oldId ] );
@@ -172,17 +172,17 @@ stringstream findAnswer(stringstream& is ) {
                             newId = predecessor[ newId ];
                         }
 
-                        //--- Print and apply the algorithm.
+                        //--- Print 
                         for( int i=0; i<(int)algorithm.size(); i++ ){
                             os << "UDFBLR"[algorithm[i]/3] << algorithm[i]%3+1<<" ";
                             currentState = applyMove( algorithm[i], currentState );
                         }
 
-                        //--- Jump to the next phase.
+                        
                         goto nextPhasePlease;
                     }
 
-                    //--- If we've never seen this state (id) before, visit it.
+                    
                     if( ! newDir ){
                         q.push( newState );
                         newDir = oldDir;
